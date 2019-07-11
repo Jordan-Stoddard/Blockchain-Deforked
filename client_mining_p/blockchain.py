@@ -161,6 +161,13 @@ def mine():
     required = ['proof']
     if not all(k in values for k in required):
         return 'Missing Values', 400
+
+    if not blockchain.valid_proof(last_proof, values['proof']):
+        response = {
+            'message:' "proof is invalid or already submitted."
+        }
+        return jsonify(response), 200
+
     # We must receive a reward for finding the proof.
     # The sender is "0" to signify that this node has mine a new coin
     blockchain.new_transaction(
