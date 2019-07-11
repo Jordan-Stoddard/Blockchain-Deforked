@@ -249,6 +249,12 @@ def mine():
 
     values = request.get_json()
     submitted_proof = values.get('proof')
+    sender_id = values.get('sender_id')
+
+    # Check that the required fields are in the POST'ed data
+    required = ['proof', 'sender_id']
+    if not all(k in values for k in required):
+        return 'Missing Values', 400
 
     if blockchain.valid_proof(last_proof, submitted_proof):
         # We must receive a reward for finding the proof.
